@@ -18,6 +18,7 @@ public:
     int find(int elem);
     void union_sets(int first, int second);
     void clear();
+    int get_size();
 };
 
 DSU::DSU(int size) : _size(size) {
@@ -31,6 +32,10 @@ DSU::DSU(int size) : _size(size) {
 DSU::~DSU() {
     delete[] _parent;
     delete[] _rank;
+}
+
+int DSU::get_size() {
+    return _size;
 }
 
 void DSU::make_set(int elem) {
