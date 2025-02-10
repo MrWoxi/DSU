@@ -44,23 +44,21 @@ void DSU::make_set(int elem) {
     _rank[elem] = 0;
 }
 
-int DSU::find(int elem) {
+int DSU::find(int elem) { // elem = 10
     if (elem <= 0 || elem > _size) {
         throw std::logic_error("Input Error: Element out of bounds.");
     }
 
-    elem--; 
+    elem--; // elem = 9
 
-    if (_parent[elem] != elem) {
-        _parent[elem] = find(_parent[elem]); 
-    }
     return _parent[elem];
 }
 
-void DSU::union_sets(int first, int second) {
+void DSU::union_sets(int first, int second) { // first = 1, second = 10
     
-    int root1 = find(first);
-    _parent[second] = root1;
+    int root1 = find(first);// root1 = 0
+    int root2 = find(second);// root2 = 9
+    _parent[root2] = root1;//_parent[9] = 0
 
 }
 
