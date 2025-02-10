@@ -16,9 +16,10 @@ public:
     ~DSU();
     void make_set(int elem);
     int find(int elem);
-    void union_sets(int first, int second);
+    int union_sets(int first, int second);
     void clear();
     int get_size();
+    int get_rank(int num);
 };
 
 DSU::DSU(int size) : _size(size) {
@@ -27,6 +28,7 @@ DSU::DSU(int size) : _size(size) {
     for (int i = 0; i < size; ++i) {
         make_set(i + 1); 
     }
+
 }
 
 DSU::~DSU() {
@@ -37,6 +39,7 @@ DSU::~DSU() {
 int DSU::get_size() {
     return _size;
 }
+
 
 void DSU::make_set(int elem) {
     if (elem <= 0 || elem > _size) {
@@ -59,11 +62,25 @@ int DSU::find(int elem) { // elem = 10
     return _parent[elem];
 }
 
-void DSU::union_sets(int first, int second) { // first = 1, second = 10
+int DSU::get_rank(int num) {
+    return _rank[find(num)];
+}
+
+int DSU::union_sets(int first, int second) { // first = 1, second = 10
     
     int root1 = find(first);// root1 = 0
     int root2 = find(second);// root2 = 9
-    _parent[root2] = root1;//_parent[9] = 0
+
+    if (_rank[root1] == 0) {
+        _rank[root1] = 1;
+    }
+    else 
+    {
+        _rank[root1] += _rank[root2];
+    }
+    _parent[root2] = root1;
+    return 0;
+
 
 }
 
