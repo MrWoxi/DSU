@@ -48,7 +48,30 @@ class RedBlackTree {
         std::pair<RBNode*, bool> result = searchBST(root, target, 0);
         return result;
     }
+    RBNode* min() {
+        RBNode* node = root;
+        if (node == nullptr) return nullptr;
+        while (true) {
+            if (node->left != nullptr) {
+                node = node->left;
+                continue;
+            }
+            return node;
+            
+        }
+    }
+    RBNode* max() {
+        RBNode* node = root;
+        if (node == nullptr) return nullptr;
+        while (true) {
+            if (node->right != nullptr) {
+                node = node->right;
+                continue;
+            }
+            return node;
 
+        }
+    }
 
  private:
 
@@ -76,6 +99,7 @@ class RedBlackTree {
      
         if (currentNode == nullptr) {
             currentNode = newNode;
+            newNode->parent = currentNode;
             return true;
         }
 
@@ -85,9 +109,20 @@ class RedBlackTree {
 
 
         if (newNode->data < currentNode->data) {
+            if (currentNode->left == nullptr) {
+                currentNode->left = newNode;
+                newNode->parent = currentNode;
+                return true;
+            }
             insertBST(currentNode->left, newNode);
+            
         }
         else {
+            if (currentNode->right == nullptr) {
+                currentNode->right = newNode;
+                newNode->parent = currentNode;
+                return true;
+            }
             insertBST(currentNode->right, newNode);
         }
 
