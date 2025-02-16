@@ -14,7 +14,7 @@ public:
     RBNode* left;         
     RBNode* right;        
     RBNode* parent;    
-    RBNode(int value) : data(value), color(RED), left(nullptr), right(nullptr), parent(nullptr) {}
+    RBNode(int value) : data(value), color(BLACK), left(nullptr), right(nullptr), parent(nullptr) {}
 };
 
 class RedBlackTree {
@@ -36,16 +36,16 @@ class RedBlackTree {
         }
         bool flagNewNode = insertBST(root, newNode);
         if (flagNewNode) {
-            sortTree();
+            RepaintingRBNode(newNode);
         }
     }
-    std::pair<RBNode*, bool> renderSearchBST(int target) {
-        std::pair<RBNode*, bool> result = searchBST(root, target, 0);
+    std::pair<RBNode*, bool> SearchBST_render(int target) {
+        std::pair<RBNode*, bool> result = searchBST(root, target);
         std::cout << result.second;
         return result;
     }
     std::pair<RBNode*, bool> SearchBST(int target) {
-        std::pair<RBNode*, bool> result = searchBST(root, target, 0);
+        std::pair<RBNode*, bool> result = searchBST(root, target);
         return result;
     }
     RBNode* min() {
@@ -75,7 +75,68 @@ class RedBlackTree {
 
  private:
 
-     std::pair<RBNode*, bool> searchBST(RBNode* node, int target,int num) {
+     void RepaintingRBNode(RBNode*& currentNode) {
+         if (currentNode == root) return;
+
+         RBNode* RBNodeDad = currentNode->parent;
+         if (RBNodeDad == nullptr) return; 
+         if (RBNodeDad->color == BLACK) return;
+
+         RBNode* RBNodeGrandDad = RBNodeDad->parent;
+         RBNode* RBNodeUncle = nullptr;
+
+         if (RBNodeGrandDad != nullptr) {
+             if (RBNodeGrandDad->left == RBNodeDad) {
+                 RBNodeUncle = RBNodeGrandDad->right;
+             }
+             else {
+                 RBNodeUncle = RBNodeGrandDad->left;
+             }
+         }
+
+
+         if (RBNodeUncle != nullptr && RBNodeUncle->color == RED) {
+             RBNodeUncle->color = BLACK;
+             RBNodeDad->color = BLACK;
+             if (RBNodeGrandDad != root) {
+                 RBNodeGrandDad->color = RED;
+             }
+             currentNode = RBNodeGrandDad; 
+             RepaintingRBNode(currentNode); 
+             return;
+         }
+
+        
+         
+         if (RBNodeDad->right == currentNode) { 
+             currentNode->left = RBNodeDad;
+             RBNodeDad->right = nullptr;
+         }
+         else { 
+             currentNode->right = RBNodeDad;
+             RBNodeDad->left = nullptr; 
+         }
+
+        
+         RBNodeDad->color = BLACK;
+         currentNode->color = RED;
+
+         
+         if (RBNodeGrandDad != nullptr) {
+             if (RBNodeGrandDad->left == RBNodeDad) {
+                 RBNodeGrandDad->left = currentNode;
+             }
+             else {
+                 RBNodeGrandDad->right = currentNode;
+             }
+         }
+         else {
+             root = currentNode; 
+         }
+     }
+
+
+     std::pair<RBNode*, bool> searchBST(RBNode* node, int target) {
 
         if (node == nullptr) {
             return { nullptr , false };
@@ -87,31 +148,24 @@ class RedBlackTree {
         }
 
         if (target < node->data) {
-            return searchBST(node->left, target, ++num);
+            return searchBST(node->left, target);
         }
         else {
-            return searchBST(node->right, target, ++num);
+            return searchBST(node->right, target);
         }
 
      }
 
+    // true - добавлен новый | false - элемент сущесвует добавление не будет  
     bool insertBST(RBNode*& currentNode, RBNode* newNode) {
-     
-        if (currentNode == nullptr) {
-            currentNode = newNode;
-            newNode->parent = currentNode;
-            return true;
-        }
-
-        if (newNode->data == currentNode->data) {
-            return false;
-        }
+        if (newNode->data == currentNode->data) return false;
 
 
         if (newNode->data < currentNode->data) {
             if (currentNode->left == nullptr) {
-                currentNode->left = newNode;
                 newNode->parent = currentNode;
+                newNode->color = RED;
+                currentNode->left = newNode;
                 return true;
             }
             insertBST(currentNode->left, newNode);
@@ -119,8 +173,9 @@ class RedBlackTree {
         }
         else {
             if (currentNode->right == nullptr) {
-                currentNode->right = newNode;
                 newNode->parent = currentNode;
+                newNode->color = RED;
+                currentNode->right = newNode;
                 return true;
             }
             insertBST(currentNode->right, newNode);

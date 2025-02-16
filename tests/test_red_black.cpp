@@ -26,8 +26,12 @@ TEST(test_RedBlackTree, test_min) {
 	tree1.insert(1);
 	tree1.insert(21);
 	tree1.insert(5);
+
 	tree1.insert(17);
 	ASSERT_TRUE((tree1.min()->data == -15));
+	tree1.insert(-17);
+	ASSERT_TRUE((tree1.min()->data == -17));
+
 }
 
 TEST(test_RedBlackTree, test_max) {
@@ -38,11 +42,13 @@ TEST(test_RedBlackTree, test_max) {
 	tree1.insert(17);
 	tree1.insert(-15);
 	ASSERT_TRUE((tree1.max()->data == 21));
+	tree1.insert(817);
+	ASSERT_TRUE((tree1.max()->data == 817));
 }
 
 TEST(test_RedBlackTree, test_parent) {
 	RedBlackTree tree1;
-	tree1.insert(1);  
+	tree1.insert(1); 
 	tree1.insert(-15);
 	tree1.insert(21); 
 	ASSERT_TRUE((tree1.max()->parent->data == 1));
