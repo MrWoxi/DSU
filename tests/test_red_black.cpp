@@ -2,15 +2,27 @@
 
 #include <gtest.h>
 #include "../lib_red_black/red_black.h"
-#define EPSILON 0.000001
+#include <random>
 
-TEST(test_wood_rb, find_test) {
-	ASSERT_TRUE(true);
+TEST(test_RedBlackTree, testSearchBST) {
+	RedBlackTree tree1;
+
+	ASSERT_FALSE(tree1.SearchBST(101).first);
+
+	tree1.insert(1);
+	tree1.insert(21);
+	tree1.insert(-15);
+
+	ASSERT_FALSE(tree1.SearchBST(101).first);
+	tree1.insert(101);
+	ASSERT_TRUE(tree1.SearchBST(101).first);
 }
 
-TEST(test_wood_rb, find_test) {
-	red_black_wood wd1 = red_black_wood(1);
-	ASSERT_TRUE(true);
+TEST(test_RedBlackTree, testSearchBST_null) {
+	RedBlackTree tree1;
+
+	ASSERT_FALSE(tree1.SearchBST(101).first);
 }
+
 
 
