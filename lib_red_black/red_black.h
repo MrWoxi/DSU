@@ -4,7 +4,6 @@
 #include <utility>
 #include <iostream>
 #include <string>
-#define MAXLENRIGHT 120;
 
 enum Color { RED, BLACK };
 
@@ -64,7 +63,7 @@ class RedBlackTree {
             return { node , true };
         }
 
-        if (target > node->data) {
+        if (target < node->data) {
             return searchBST(node->left, target, ++num);
         }
         else {
@@ -85,7 +84,7 @@ class RedBlackTree {
         }
 
 
-        if (newNode->data > currentNode->data) {
+        if (newNode->data < currentNode->data) {
             insertBST(currentNode->left, newNode);
         }
         else {

@@ -6,9 +6,6 @@
 
 TEST(test_RedBlackTree, testSearchBST) {
 	RedBlackTree tree1;
-
-	ASSERT_FALSE(tree1.SearchBST(101).first);
-
 	tree1.insert(1);
 	tree1.insert(21);
 	tree1.insert(-15);
@@ -20,7 +17,6 @@ TEST(test_RedBlackTree, testSearchBST) {
 
 TEST(test_RedBlackTree, testSearchBST_null) {
 	RedBlackTree tree1;
-
 	ASSERT_FALSE(tree1.SearchBST(101).first);
 }
 
