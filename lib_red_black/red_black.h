@@ -72,8 +72,32 @@ class RedBlackTree {
 
         }
     }
+     int lenBlack() {
+         RBNode* node = root;
+         int sumBlack = 0;
+         while (true) {
+             if (node->color == BLACK) ++sumBlack;
+             if (node->left == nullptr) return ++sumBlack;
+             else node = node->left;
+         }
+     }
 
  private:
+     void LeftSwapPlaces(RBNode*& gradDad, RBNode*& Dad, RBNode*& son) {
+         son->parent = gradDad;
+         son->left = Dad;
+         Dad->parent = son;
+         Dad->right = nullptr;
+         gradDad->right = son;
+
+     }
+     void RightSwapPlaces(RBNode*& gradDad, RBNode*& Dad, RBNode*& son) {
+         son->parent = gradDad;
+         son->right = Dad;
+         Dad->parent = son;
+         Dad->left = nullptr;
+         gradDad->left = son;
+     }
 
      void RepaintingRBNode(RBNode*& currentNode) {
          if (currentNode == root) return;
@@ -101,38 +125,38 @@ class RedBlackTree {
              if (RBNodeGrandDad != root) {
                  RBNodeGrandDad->color = RED;
              }
-             currentNode = RBNodeGrandDad; 
-             RepaintingRBNode(currentNode); 
+             currentNode = RBNodeGrandDad;
+             RepaintingRBNode(currentNode);
              return;
          }
-
-        
          
-         if (RBNodeDad->right == currentNode) { 
-             currentNode->left = RBNodeDad;
-             RBNodeDad->right = nullptr;
+         if (RBNodeDad->right == currentNode) {
+            LeftSwapPlaces(RBNodeGrandDad ,RBNodeDad, currentNode);
+            RBNodeDad->color = BLACK;
+            currentNode->color = RED;
          }
-         else { 
-             currentNode->right = RBNodeDad;
-             RBNodeDad->left = nullptr; 
+         else if (RBNodeDad->left == currentNode) {
+             RightSwapPlaces(RBNodeGrandDad, RBNodeDad, currentNode);
+             RBNodeDad->color = BLACK;
+             currentNode->color = RED;
          }
 
-        
-         RBNodeDad->color = BLACK;
-         currentNode->color = RED;
+         //Доделать тут условия не робят
+         if (false) {
+             RBNodeGrandDad->parent = RBNodeDad;
+             RBNodeGrandDad->right = nullptr;
+             RBNodeDad->left = RBNodeGrandDad;
+             root = RBNodeDad;
+         }
+         else if (false) {
+             RBNodeGrandDad->parent = RBNodeDad;
+             RBNodeGrandDad->right = nullptr;
+             RBNodeDad->left = RBNodeGrandDad;
+             root = RBNodeDad;
+         }
 
-         
-         if (RBNodeGrandDad != nullptr) {
-             if (RBNodeGrandDad->left == RBNodeDad) {
-                 RBNodeGrandDad->left = currentNode;
-             }
-             else {
-                 RBNodeGrandDad->right = currentNode;
-             }
-         }
-         else {
-             root = currentNode; 
-         }
+
+
      }
 
 

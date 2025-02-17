@@ -56,3 +56,11 @@ TEST(test_RedBlackTree, test_parent) {
 	ASSERT_TRUE((tree1.max()->parent->data == 21));
 
 }
+
+TEST(test_RedBlackTree, test_lenBlack) {
+	RedBlackTree tree1;
+	for(int i = 0; i < 100; i++) tree1.insert(i);
+
+	ASSERT_EQ(tree1.lenBlack(), 2);
+
+}
