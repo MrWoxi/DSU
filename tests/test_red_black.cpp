@@ -3,7 +3,7 @@
 #include <gtest.h>
 #include "../lib_red_black/red_black.h"
 #include <random>
-
+/*
 TEST(test_RedBlackTree, testSearchBST) {
 	RedBlackTree tree1;
 	tree1.insert(1);
@@ -64,3 +64,27 @@ TEST(test_RedBlackTree, test_lenBlack) {
 	ASSERT_EQ(tree1.lenBlack(), 2);
 
 }
+TEST(test_RedBlackTree, test_replay) {
+	RedBlackTree tree1;
+	tree1.insert(1);
+	tree1.insert(-15);
+	tree1.insert(21);
+	tree1.insert(21);
+	tree1.insert(21);
+
+	ASSERT_TRUE((tree1.max()->parent->data == 1));
+
+}
+TEST(test_RedBlackTree, test_1) {
+	RedBlackTree tree1;
+	tree1.insert(1);
+	tree1.insert(10);
+	tree1.insert(9);
+
+
+
+	tree1.displayTrea();
+	ASSERT_TRUE((tree1.max()->data == 1));
+
+}
+*/

@@ -4,26 +4,12 @@
 #include <utility>
 #include <iostream>
 #include <string>
-
-enum Color { RED, BLACK };
-
-class RBNode {
-public:
-    int data;               
-    Color color;          
-    RBNode* left;         
-    RBNode* right;        
-    RBNode* parent;    
-    RBNode(int value) : data(value), color(BLACK), left(nullptr), right(nullptr), parent(nullptr) {}
-};
+#include <queue>
+#include "../lib_node/Node.cpp"
 
 class RedBlackTree {
  private:
     RBNode* root;
-    void sortTree() {
-        
-    }
-
  public:
     RedBlackTree() : root(nullptr) {}
 
@@ -141,7 +127,7 @@ class RedBlackTree {
              currentNode->color = RED;
          }
 
-         //Доделать тут условия не робят
+         //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
          if (false) {
              RBNodeGrandDad->parent = RBNodeDad;
              RBNodeGrandDad->right = nullptr;
@@ -180,12 +166,12 @@ class RedBlackTree {
 
      }
 
-    // true - добавлен новый | false - элемент сущесвует добавление не будет  
+    // true - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ | false - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ  
     bool insertBST(RBNode*& currentNode, RBNode* newNode) {
         if (newNode->data == currentNode->data) return false;
 
 
-        if (newNode->data < currentNode->data) {
+        if (newNode->data > currentNode->data) {
             if (currentNode->left == nullptr) {
                 newNode->parent = currentNode;
                 newNode->color = RED;
@@ -203,6 +189,65 @@ class RedBlackTree {
                 return true;
             }
             insertBST(currentNode->right, newNode);
+        }
+
+    }
+    public:
+    void displayTrea() {
+        RBNode* node = root;
+        std::queue<RBNode*> myQueue;
+        std::queue<RBNode*> nowQueue;
+        int sizeWindow = 110;
+        int countHight = 0;
+        myQueue.push(root);
+        while (!myQueue.empty() || !nowQueue.empty()) {
+            int sizeQ = myQueue.size();
+            while (!myQueue.empty()) {
+                RBNode* nowNode = myQueue.front();
+                nowQueue.push(nowNode);
+                myQueue.pop();
+                for(int i = 0; i < (sizeWindow / (sizeQ + 1)); i++)
+                std::cout << " ";
+                if (nowNode != nullptr) {
+                std::cout << nowNode->data << "";
+                }
+                else {
+                    std::cout << "E" << "";
+                }
+
+            }
+            countHight++;
+            if (countHight >= 6) { return; }
+            while (!nowQueue.empty())
+            {
+                if (nowQueue.front() == nullptr) {
+                    myQueue.push(nullptr);
+                    myQueue.push(nullptr);
+                    nowQueue.pop();
+                    continue;
+                }
+                if (nowQueue.front()->left != nullptr)
+                {
+                    myQueue.push(nowQueue.front()->left);
+                }
+                else
+                {
+                    myQueue.push(nullptr);
+                }
+
+                if (nowQueue.front()->right != nullptr)
+                {
+                    myQueue.push(nowQueue.front()->right);
+                }
+                else
+                {
+                    myQueue.push(nullptr);
+                }
+
+                nowQueue.pop();
+
+            }
+            std::cout << "\n";
         }
 
     }
